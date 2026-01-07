@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By # allow search with parameters
 from selenium.webdriver.support.ui import WebDriverWait # allow waiting for page to load
 from selenium.webdriver.support import expected_conditions as EC # determine whether the web page has loaded
 from selenium.common.exceptions import TimeoutException # handling timeout situation
+import pandas as pd 
 
 driver_option = webdriver.ChromeOptions()
 driver_option.add_argument("--incognito")
@@ -34,4 +35,15 @@ for proj in projects:
     except Exception as e:
         print(f"擷取個別專案時發生錯誤: {e}")
 
-print("\n最終結果：", project_list)
+# Close connection
+browser.quit()
+
+# Extracting data
+#project_df = pd.DataFrame.from_dict(project_list, orient = 'index')
+#將字典轉換成 DataFrame
+project_df = pd.DataFrame.from_dict(project_list, orient='index', columns=['URL'])
+#重新命名索引 (讓表格更好看)
+project_df.index.name = 'Project Name'
+
+# Export project dataframe to CSV
+project_df.to_csv('project_list.csv')
