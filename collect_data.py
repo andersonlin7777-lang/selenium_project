@@ -5,11 +5,13 @@ from selenium.webdriver.common.by import By # allow search with parameters
 from selenium.webdriver.support.ui import WebDriverWait # allow waiting for page to load
 from selenium.webdriver.support import expected_conditions as EC # determine whether the web page has loaded
 from selenium.common.exceptions import TimeoutException # handling timeout situation
-import pandas as pd 
+import pandas as pd
+
 
 driver_option = webdriver.ChromeOptions()
 driver_option.add_argument("--incognito")
 driver_option.add_experimental_option("detach", True)#讓瀏覽器在腳本結束後保持開啟
+
 chromedriver_path = 'C:/Users/User/Desktop/learn/selenium_project/chromedriver/chromedriver.exe' # Change this to your own chromedriver path!
 def create_webdriver():
     service = Service(executable_path=chromedriver_path)#建立Service 物件
@@ -37,6 +39,7 @@ for proj in projects:
 
 # Close connection
 browser.quit()
+
 
 # Extracting data
 #project_df = pd.DataFrame.from_dict(project_list, orient = 'index')
