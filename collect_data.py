@@ -2,7 +2,7 @@ from selenium import webdriver # allow launching browser
 from selenium.webdriver.chrome.service import Service # 1. 新增這一行
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By # allow search with parameters
-from webdriver_manager.chrome import ChromeDriverManager#讓chrome自動下載
+from webdriver_manager.chrome import ChromeDriverManager#讓chromedriver自動下載
 from selenium.webdriver.support.ui import WebDriverWait # allow waiting for page to load
 from selenium.webdriver.support import expected_conditions as EC # determine whether the web page has loaded
 from selenium.common.exceptions import TimeoutException # handling timeout situation
@@ -13,6 +13,7 @@ import pandas as pd
 
 def create_webdriver():
     driver_option = webdriver.ChromeOptions()
+    #命令 Chrome 瀏覽器以『無痕模式 (Incognito Mode)』開啟，免留紀錄
     driver_option.add_argument("--incognito")
     driver_option.add_experimental_option("detach", True)#讓瀏覽器在腳本結束後保持開啟
 

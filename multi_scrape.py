@@ -2,18 +2,23 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager#讓chromedriver自動下載
 from concurrent.futures import ProcessPoolExecutor
 import concurrent.futures
 
-chromedriver_path = r'C:/Users/User/Desktop/learn/selenium_project/chromedriver/chromedriver.exe'
+#有了webdriver_manager就不需要指定路徑，而會自動下載
+#chromedriver_path = r'C:/Users/User/Desktop/learn/selenium_project/chromedriver/chromedriver.exe'
 
 def create_webdriver():
     driver_option = webdriver.ChromeOptions()
+    #命令 Chrome 瀏覽器以『無痕模式 (Incognito Mode)』開啟，免留紀錄
     driver_option.add_argument("--incognito")
-    return webdriver.Chrome(service=Service(executable_path=chromedriver_path), options=driver_option)
+    #return webdriver.Chrome(service=Service(executable_path=chromedriver_path), options=driver_option)
+    service = Service(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=driver_option)
 
 # 修訂：讓函式同時接收 name 和 url
-def scrape_url_detail(name, url): # <--- 這裡增加了 name 參數
+def scrape_url_detail(name, url): # <--- 這裡增加了 name，url 參數
     """子進程任務：進入專案頁面並回傳完整資料"""
     browser = create_webdriver()
     try:
@@ -30,7 +35,7 @@ def scrape_url_detail(name, url): # <--- 這裡增加了 name 參數
     finally:
         browser.quit()
     return data
-
+#多工處理一定要寫這一段，作為防火牆，避免重複迴圈
 if __name__ == "__main__":
     # --- 第一階段：獲取基本清單 ---
     main_browser = create_webdriver()
